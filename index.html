@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Match Poll</title>
+    <style>
+      /* CSS code for the notification box */
+      .notification {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        cursor: pointer;
+      }
+
+      .poll-icon {
+        font-weight: bold;
+      }
+
+      /* CSS code for the poll form */
+      #poll-form {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notification" id="notification">
+      <span class="poll-icon">
+        <img src="Quick-Poll.png" style="width:40px;height:40px;">
+      </span>
+    </div>
+
+    <div id="poll-form">
+      <h1>What is your favorable outcome for today's match?</h1>
+      <form id="poll">
+        <input type="radio" name="outcome" value="manu"> Win for Manchester United<br>
+        <input type="radio" name="outcome" value="mancity"> Win for Manchester City<br>
+        <input type="radio" name="outcome" value="draw"> Draw<br>
+        <button type="submit">Vote</button>
+      </form>
+
+      <div id="confirmation" style="display:none;">
+        <p>Are you sure?</p>
+        <button type="button" id="yes">Yes</button>
+        <button type="button" id="no">No</button>
+      </div>
+
+      <div id="results" style="display:none;">
+        <p>Current poll results:</p>
+        <p>Win for Manchester United: 25%</p>
+        <p>Win for Manchester City: 25%</p>
+        <p>Draw: 50%</p>
+      </div>
+    </div>
+
+    <script>
+      // Get the notification icon and poll form
+      var notification = document.getElementById("notification");
+      var pollForm = document.getElementById("poll-form");
+
+      // Add event listener to the notification icon
+      notification.addEventListener("click", function() {
+        // Show the poll form and hide the notification icon
+        notification.style.display = "none";
+        pollForm.style.display = "block";
+      });
+
+      // Add event listener to the poll form
+      pollForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        // Display the confirmation box
+        document.getElementById("confirmation").style.display = "block";
+      });
+
+      // Add event listener to the "Yes" button
+      document.getElementById("yes").addEventListener("click", function() {
+        // Submit the vote to the server
+        // ...
+        // Hide the confirmation box
+        document.getElementById("confirmation").style.display = "none";
+        // Show a message to confirm the vote
+        alert("Thank you for your vote!");
+        // Show the poll results
+        document.getElementById("results").style.display = "block";
+      });
+
+      // Add event listener to the "No" button
+      document.getElementById("no").addEventListener("click", function() {
+        // Hide the confirmation box
+        document.getElementById("confirmation").style.display = "none";
+        // Uncheck all the radio buttons
+        var radios = document.getElementsByName("outcome");
+        for (var i = 0; i < radios.length; i++) {
+          radios[i].checked = false;
+        }
+      });
+    </script>
+  </body>
+</html>
