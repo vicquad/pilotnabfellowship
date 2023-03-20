@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Match Poll</title>
+	<style>
+		body{
+			max-width: 500px;
+			margin:auto;
+			background-color: gray;
+		}
+		
+        .graph-container {
+            text-align:center;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.graph {
+  display: flex;
+  align-items: flex-end;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+.bar {
+  flex: 1;
+  position: relative;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.bar span.bar-text {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+}
+
+.bar.mu {
+  background-color: rgb(218,41,28)
+}
+
+.bar.mc {
+  background-color: #3498db;
+}
+
+.legend {
+  display: flex;
+}
+
+.legend-item {
+  flex: 1;
+  font-size: 18px;
+  text-align: center;
+  padding: 10px;
+}
+
+.legend-item.mu {
+  background-color: rgb(218,41,28);
+  color: #fff;
+}
+
+.legend-item.mc {
+  background-color: #3498db;
+  color: #fff;
+}
+
+		
+	</style>
+</head>
+<body>
+	<h1>What is your favorable outcome for today's match?</h1>
+	<form id="poll">
+		<button type="hidden" name="outcome" value="manu" style="width:60%;height:60px;background-color:rgb(218,41,28);align-items: center; margin-bottom: 10px;border: 0px;font-size: larger;"> Win for Manchester United</button><br>
+		<button type="hidden" name="outcome" value="mancity" style="width:60%;height:60px;background-color:#3498db; margin-bottom: 10px; border:0px;font-size: larger;"> Win for Manchester City</button><br>
+		<button type="hidden" name="outcome" value="draw" style="width:60%;height:60px;background-color:darksalmon; margin-bottom: 10px;border:0px;font-size: larger;"> Draw </button><br>
+		
+	</form>
+
+	<div id="confirmation" style="display:none;">
+		<p style="font-size: larger;">Are you sure?</p>
+		<button type="button" id="yes" style="background-color: green; border:0px; width:30%;font-size: larger;">Yes</button>
+		<button type="button" id="no" style="background-color:crimson; border:0px;width:30%;font-size: larger; ">No</button>
+	</div>
+
+	
+	
+	
+	<!-- Display after submission-->
+	<div class="graph" id="results" style="display:none">
+		<h2>Manchester United vs Manchester City</h2>
+		<div class="graph">
+		  <div class="bar mu" style="height: 60%;"><span class="bar-text">60%</span></div>
+		  <div class="bar mc" style="height: 40%;"><span class="bar-text">40%</span></div>
+		</div>
+		<div class="legend">
+		  <div class="legend-item mu">Manchester United</div>
+		  <div class="legend-item mc">Manchester City</div>
+		</div>
+	  </div>
+
+	<script>
+		// Get the poll form
+		var pollForm = document.getElementById("poll");
+
+		// Add event listener to the form
+		pollForm.addEventListener("submit", function(event) {
+			event.preventDefault();
+			// Display the confirmation box
+			document.getElementById("confirmation").style.display = "block";
+		});
+
+		// Add event listener to the "Yes" button
+		document.getElementById("yes").addEventListener("click", function() {
+			// Submit the vote to the server
+			//change the header
+			document.getElementsByTagName('h1')[0].innerHTML='Current Poll Results'
+			// hide the form
+			document.getElementById("poll").style.display = "none";
+			// Hide the confirmation box
+			document.getElementById("confirmation").style.display = "none";
+			// Show a message to confirm the vote
+			alert("Thank you for your vote!");
+			// Show the poll results
+			document.getElementById("results").style.display = "block";
+		});
+
+		// Add event listener to the "No" button
+		document.getElementById("no").addEventListener("click", function() {
+			//hide the poll form
+			
+
+			// Hide the confirmation box
+			document.getElementById("confirmation").style.display = "none";
+			// Uncheck all the radio buttons
+			var radios = document.getElementsByName("outcome");
+			for (var i = 0; i < radios.length; i++) {
+				radios[i].checked = false;
+			}
+		});
+	</script>
+</body>
+</html>
