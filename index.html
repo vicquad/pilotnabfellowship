@@ -3,10 +3,23 @@
 <head>
 	<title>Match Poll</title>
 	<style>
+		button.highlight {
+    border: 2px solid blue;
+    outline: none;
+}
+
+		html {
+
+    font-size: 1em;
+    background-color: #000000;
+    background-image: linear-gradient(25deg, transparent 65%, #5D3FD3, transparent 70%), linear-gradient(-25deg, transparent 65%, #1474b8, transparent 70%), linear-gradient(-25deg, transparent 30%, #5D3FD3, transparent 35%), linear-gradient(25deg, transparent 30%, #1474b8, transparent 35%);
+    background-size: 5em 2em, 5em 2em, 5em 2em, 5em 2em;
+  }
 		body{
 			max-width: 500px;
 			margin:auto;
-			background-color: gray;
+			 color: white;
+			
 		}
 		
         .graph-container {
@@ -14,7 +27,20 @@
   margin: 20px auto;
   max-width: 600px;
 }
+#effect {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(49, 30, 59, 0.68);;
+  animation-name: example;
+  animation-duration: 10s;
+}
 
+@keyframes example {
+  0%   {background-color: rgba(82, 50, 98, 0.68);}
+  25%  {background-color: rgba(16, 10, 20, 0.68);}
+  50%  {background-color: rgba(49, 30, 59, 0.68);}
+  100% {background-color: rgba(105, 66, 126, 0.68);}
+}
 .graph {
   display: flex;
   align-items: flex-end;
@@ -39,11 +65,11 @@
 }
 
 .bar.mu {
-  background-color: rgb(218,41,28)
+  background-color: rgba(79, 57, 57, 0.8);
 }
 
 .bar.mc {
-  background-color: #3498db;
+  background-color: rgba(92, 86, 66, 0.8);
 }
 
 .legend {
@@ -58,39 +84,36 @@
 }
 
 .legend-item.mu {
-  background-color: rgb(218,41,28);
+  background-color: rgba(0,0,0,.6);
   color: #fff;
 }
 
 .legend-item.mc {
-  background-color: #3498db;
+  background-color: rgba(0,0,0,.6);
   color: #fff;
 }
 
 		
 	</style>
+	<p id='guide' style="text-align:right;margin-bottom: 80px;">Press Ok to select an option highlighted by blue<br></p>
 </head>
 <body>
-	<h1>What is your favorable outcome for today's match?</h1>
-	<form id="poll">
-		<button type="hidden" name="outcome" value="manu" style="width:60%;height:60px;background-color:rgb(218,41,28);align-items: center; margin-bottom: 10px;border: 0px;font-size: larger;"> Win for Manchester United</button><br>
-		<button type="hidden" name="outcome" value="mancity" style="width:60%;height:60px;background-color:#3498db; margin-bottom: 10px; border:0px;font-size: larger;"> Win for Manchester City</button><br>
-		<button type="hidden" name="outcome" value="draw" style="width:60%;height:60px;background-color:darksalmon; margin-bottom: 10px;border:0px;font-size: larger;"> Draw </button><br>
+	
+	
+	<form id='poll' style="color:white">
 		
+		<h1 id='effect' style="display:block;width:100%;height:100px;text-shadow: 2px 2px 5px red;">What is your favorable outcome for today's match?</h1>
+		<button type="hidden" name="outcome" value="manu" style="width:60%;height:60px;background-color:rgba(0,0,0,.5);align-items: center; margin-bottom: 10px;border: 0px;font-size: larger;transform:scale(1);color:white"> Win for Manchester United</button><br>
+		<button type="hidden" name="outcome" value="mancity" style="width:60%;height:60px;background-color:rgba(0,0,0,.5); margin-bottom: 10px; border:0px;font-size: larger;transform:scale(1);color:white"> Win for Manchester City</button><br>
+		<button type="hidden" name="outcome" value="draw" style="width:60%;height:60px;background-color:rgba(0,0,0,.5); margin-bottom: 10px;border:0px;font-size: larger;transform:scale(1);color:white"> Draw </button><br>
 	</form>
 
-	<div id="confirmation" style="display:none;">
-		<p style="font-size: larger;">Are you sure?</p>
-		<button type="button" id="yes" style="background-color: green; border:0px; width:30%;font-size: larger;">Yes</button>
-		<button type="button" id="no" style="background-color:crimson; border:0px;width:30%;font-size: larger; ">No</button>
-	</div>
+	
 
-	
-	
-	
 	<!-- Display after submission-->
 	<div class="graph" id="results" style="display:none">
-		<h2>Manchester United vs Manchester City</h2>
+		<h>Thank You for Voting!</h>
+		<h2>Current Poll Results<br><br>Manchester United vs Manchester City</h2>
 		<div class="graph">
 		  <div class="bar mu" style="height: 60%;"><span class="bar-text">60%</span></div>
 		  <div class="bar mc" style="height: 40%;"><span class="bar-text">40%</span></div>
@@ -98,48 +121,80 @@
 		<div class="legend">
 		  <div class="legend-item mu">Manchester United</div>
 		  <div class="legend-item mc">Manchester City</div>
-		</div>
-	  </div>
-
-	<script>
-		// Get the poll form
+        </div>
+    </div>
+    <script>
+		
 		var pollForm = document.getElementById("poll");
 
-		// Add event listener to the form
-		pollForm.addEventListener("submit", function(event) {
-			event.preventDefault();
-			// Display the confirmation box
-			document.getElementById("confirmation").style.display = "block";
-		});
+		var buttons = document.querySelectorAll("button[type='hidden']");
 
-		// Add event listener to the "Yes" button
-		document.getElementById("yes").addEventListener("click", function() {
-			// Submit the vote to the server
-			//change the header
-			document.getElementsByTagName('h1')[0].innerHTML='Current Poll Results'
-			// hide the form
-			document.getElementById("poll").style.display = "none";
-			// Hide the confirmation box
-			document.getElementById("confirmation").style.display = "none";
-			// Show a message to confirm the vote
-			alert("Thank you for your vote!");
-			// Show the poll results
-			document.getElementById("results").style.display = "block";
-		});
+		// Highlight the first button
+		buttons[0].style.border = "3px solid blue";
+		
 
-		// Add event listener to the "No" button
-		document.getElementById("no").addEventListener("click", function() {
-			//hide the poll form
-			
+		var currentButtonIndex = 0;
 
-			// Hide the confirmation box
-			document.getElementById("confirmation").style.display = "none";
-			// Uncheck all the radio buttons
-			var radios = document.getElementsByName("outcome");
-			for (var i = 0; i < radios.length; i++) {
-				radios[i].checked = false;
+		// Add event listener to the document for key up, down, left and select functionality
+		document.addEventListener("keydown", function(event) {
+			var key = event.key;
+			if (key === "ArrowUp") {
+				// Move up to the previous button
+				if (currentButtonIndex > 0) {
+					buttons[currentButtonIndex].style.border = "none";
+
+					
+
+					
+
+					currentButtonIndex--;
+					buttons[currentButtonIndex].style.border = "3px solid blue";
+					;
+					
+				}
+			} else if (key === "ArrowDown") {
+				// Move down to the next button
+				if (currentButtonIndex < buttons.length - 1) {
+					buttons[currentButtonIndex].style.border = "none";
+					currentButtonIndex++;
+					buttons[currentButtonIndex].style.border = "3px solid blue";
+				}
+			} else if (key === "ArrowLeft") {
+				// Move left to the previous button
+				if (currentButtonIndex > 0) {
+					buttons[currentButtonIndex].style.border = "none";
+
+					currentButtonIndex--;
+					buttons[currentButtonIndex].style.border = "3px solid blue";
+				}
+			} else if (key === "ArrowRight") {
+				// Move right to the next button
+				if (currentButtonIndex < buttons.length - 1) {
+					buttons[currentButtonIndex].style.border = "none";
+
+					currentButtonIndex++;
+					buttons[currentButtonIndex].style.border = "3px solid blue";
+				}
+			} else if (key === "Enter") {
+				// Display the confirmation box
+				document.getElementById("poll").style.display = "none";
+				document.getElementById("guide").style.display = "none";
+				document.getElementById("results").style.display = "block"
+
+		
 			}
-		});
+			buttons.forEach(function(button) {
+    if (button === buttons[currentButtonIndex]) {
+      button.style.zIndex = "1";
+    } else {
+      button.style.zIndex = "0";
+    }
+  });
+});
+		
+
+		
 	</script>
-</body>
+    </body>
 </html>
+
